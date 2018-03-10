@@ -1,6 +1,6 @@
 #!/bin/bash
 sink="$(pacmd list-sinks|awk '/\* index:/{ print $3 }')"
-current="$(pactl list sinks | perl -000ne 'if(/#1/){/Volume:.*?(\d+)%/; (print $1)}')"
+current="$(pactl list sinks | perl -000ne 'if(/#$sink/){/Volume:.*?(\d+)%/; (print $1)}')"
 
 if [[ $1 == -u ]]
 then
