@@ -1,7 +1,7 @@
 #!/bin/bash
 sink="$(pacmd list-sinks|awk '/\* index:/{ print $3 }')"
-current="$(pactl list sinks | perl -000ne 'if(/#$sink/){/Volume:.*?(\d+)%/; (print $1)}')"
-
+current="$(pacmd list-sinks |grep -wA 15 'index: '${sink}'' |grep 'volume:' |egrep -v 'base volume:' |awk -F : '{print $3}' |grep -o -P '.{0,3}%'|sed s/.$// |tr -d ' ')"
+echo $current
 if [[ $1 == -u ]]
 then
   if [[ $((current + 5 )) -gt 100 ]]
